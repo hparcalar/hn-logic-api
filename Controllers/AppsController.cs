@@ -5,11 +5,13 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using HekaNodes.DataAccess;
+using Microsoft.AspNetCore.Cors;
 
 namespace hn_logic_api.Controllers
 {
     [ApiController]
     [Route("[controller]")]
+    [EnableCors()]
     public class AppsController : ControllerBase
     {
         NodesContext _context;
@@ -19,7 +21,6 @@ namespace hn_logic_api.Controllers
         }
 
         [HttpGet]
-        [Route("get")]
         public IEnumerable<HnAppModel> Get()
         {
             HnAppModel[] data = new HnAppModel[0];
@@ -40,7 +41,7 @@ namespace hn_logic_api.Controllers
         }
 
         [HttpGet]
-        [Route("get/{id}")]
+        [Route("{id}")]
         public HnAppModel Get(int id)
         {
             HnAppModel data = new HnAppModel();

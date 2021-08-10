@@ -19,7 +19,6 @@ namespace hn_logic_api.Controllers
         }
 
         [HttpGet]
-        [Route("get")]
         public IEnumerable<HnProcessModel> Get()
         {
             HnProcessModel[] data = new HnProcessModel[0];
@@ -41,7 +40,7 @@ namespace hn_logic_api.Controllers
         }
 
         [HttpGet]
-        [Route("get/{id}")]
+        [Route("{id}")]
         public HnProcessModel Get(int id)
         {
             HnProcessModel data = new HnProcessModel();

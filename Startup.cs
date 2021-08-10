@@ -40,6 +40,14 @@ namespace hn_logic_api
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "hn_logic_api", Version = "v1" });
             });
+            services.AddCors(options =>
+            {
+                options.AddDefaultPolicy(
+                    builder =>
+                    {
+                        builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod();
+                    });
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -52,9 +60,10 @@ namespace hn_logic_api
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "hn_logic_api v1"));
             }
 
-            app.UseHttpsRedirection();
+            // app.UseHttpsRedirection();
 
             app.UseRouting();
+            app.UseCors();
 
             app.UseAuthorization();
 
