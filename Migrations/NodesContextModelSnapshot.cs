@@ -44,14 +44,29 @@ namespace hn_logic_api.Migrations
                         .HasColumnType("integer")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn);
 
+                    b.Property<bool>("CanRepeat")
+                        .HasColumnType("boolean");
+
+                    b.Property<int>("DelayAfter")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("DelayBefore")
+                        .HasColumnType("integer");
+
                     b.Property<int>("HnAppId")
                         .HasColumnType("integer");
 
                     b.Property<bool>("IsActive")
                         .HasColumnType("boolean");
 
+                    b.Property<string>("LiveCondition")
+                        .HasColumnType("text");
+
                     b.Property<string>("Name")
                         .HasColumnType("text");
+
+                    b.Property<int>("ProcStatus")
+                        .HasColumnType("integer");
 
                     b.HasKey("HnProcessId");
 
@@ -69,6 +84,12 @@ namespace hn_logic_api.Migrations
 
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("timestamp without time zone");
+
+                    b.Property<int>("DurationInSeconds")
+                        .HasColumnType("integer");
+
+                    b.Property<bool?>("IsOk")
+                        .HasColumnType("boolean");
 
                     b.Property<float?>("NumResult")
                         .HasColumnType("real");
@@ -96,6 +117,9 @@ namespace hn_logic_api.Migrations
                     b.Property<string>("Comparison")
                         .HasColumnType("text");
 
+                    b.Property<int>("ConditionRealizeTimeout")
+                        .HasColumnType("integer");
+
                     b.Property<int?>("DelayAfter")
                         .HasColumnType("integer");
 
@@ -108,8 +132,17 @@ namespace hn_logic_api.Migrations
                     b.Property<int>("HnProcessId")
                         .HasColumnType("integer");
 
+                    b.Property<bool>("IsTestResult")
+                        .HasColumnType("boolean");
+
+                    b.Property<int>("OrderNo")
+                        .HasColumnType("integer");
+
                     b.Property<string>("ResultAction")
                         .HasColumnType("text");
+
+                    b.Property<bool>("WaitUntilConditionRealized")
+                        .HasColumnType("boolean");
 
                     b.HasKey("ProcessStepId");
 

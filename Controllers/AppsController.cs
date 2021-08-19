@@ -41,6 +41,51 @@ namespace hn_logic_api.Controllers
         }
 
         [HttpGet]
+        [Route("{id}/process")]
+        public IEnumerable<HnProcessModel> Process(int id)
+        {
+            HnProcessModel[] data = new HnProcessModel[0];
+            try
+            {
+                data = _context.HnProcesses.Where(d => d.HnAppId == id)
+                .Select(d => new HnProcessModel{
+                        HnAppId = d.HnAppId,
+                        HnProcessId = d.HnProcessId,
+                        IsActive = d.IsActive,
+                        CanRepeat = d.CanRepeat,
+                        DelayAfter =d.DelayAfter,
+                        DelayBefore = d.DelayBefore,
+                        LiveCondition = d.LiveCondition,
+                        Name = d.Name,
+                    }).ToArray();
+
+                foreach (var item in data)
+                {
+                    item.Steps = _context.ProcessSteps.Where(d => d.HnProcessId == item.HnProcessId)
+                        .Select(d => new ProcessStepModel {
+                            ProcessStepId = d.ProcessStepId,
+                            Explanation = d.Explanation,
+                            DelayBefore = d.DelayBefore,
+                            DelayAfter = d.DelayAfter,
+                            OrderNo = d.OrderNo,
+                            Comparison = d.Comparison,
+                            ResultAction = d.ResultAction,
+                            HnProcessId = d.HnProcessId,
+                            IsTestResult = d.IsTestResult,
+                            WaitUntilConditionRealized = d.WaitUntilConditionRealized,
+                            ConditionRealizeTimeout = d.ConditionRealizeTimeout,
+                        }).ToArray();
+                }
+            }
+            catch
+            {
+                
+            }
+            
+            return data;
+        }
+
+        [HttpGet]
         [Route("{id}")]
         public HnAppModel Get(int id)
         {

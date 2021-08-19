@@ -5,11 +5,13 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using HekaNodes.DataAccess;
+using Microsoft.AspNetCore.Cors;
 
 namespace hn_logic_api.Controllers
 {
     [ApiController]
     [Route("[controller]")]
+    [EnableCors()]
     public class ResultsController : ControllerBase
     {
         NodesContext _context;
@@ -19,18 +21,24 @@ namespace hn_logic_api.Controllers
         }
 
         [HttpGet]
-        [Route("get")]
         public IEnumerable<ProcessResultModel> Get()
         {
             ProcessResultModel[] data = new ProcessResultModel[0];
             try
             {
-                data = _context.ProcessResults.Select(d => new ProcessResultModel{
+                DateTime dtStart = DateTime.Now.Date.AddMonths(-1);
+                DateTime dtEnd = DateTime.Now;
+
+                data = _context.ProcessResults.Where(d => d.CreatedDate >= dtStart && d.CreatedDate <= dtEnd)
+                    .Select(d => new ProcessResultModel{
                         CreatedDate = d.CreatedDate,
                         Id = d.Id,
                         NumResult = d.NumResult,
                         ProcessStepId = d.ProcessStepId,
                         StrResult = d.StrResult,
+                        DurationInSeconds = d.DurationInSeconds,
+                        IsTestResult = d.ProcessStep.IsTestResult,
+                        IsOk = d.IsOk,
                     }).ToArray();
             }
             catch
@@ -42,7 +50,93 @@ namespace hn_logic_api.Controllers
         }
 
         [HttpGet]
-        [Route("get/{id}")]
+        [Route("App/{appId}")]
+        public IEnumerable<ProcessResultModel> GetApp(int appId){
+            ProcessResultModel[] data = new ProcessResultModel[0];
+            try
+            {
+                DateTime dtStart = DateTime.Now.Date.AddMonths(-1);
+                DateTime dtEnd = DateTime.Now;
+
+                data = _context.ProcessResults.Where(d => d.CreatedDate >= dtStart && d.CreatedDate <= dtEnd
+                        && d.ProcessStep.HnProcess.HnAppId == appId)
+                    .Select(d => new ProcessResultModel{
+                        CreatedDate = d.CreatedDate,
+                        Id = d.Id,
+                        NumResult = d.NumResult,
+                        ProcessStepId = d.ProcessStepId,
+                        StrResult = d.StrResult,
+                        DurationInSeconds = d.DurationInSeconds,
+                        IsTestResult = d.ProcessStep.IsTestResult,
+                        IsOk = d.IsOk,
+                    }).ToArray();
+            }
+            catch
+            {
+                
+            }
+            
+            return data;
+        }
+
+        [HttpGet]
+        [Route("Process/{processId}")]
+        public IEnumerable<ProcessResultModel> GetProc(int processId){
+            ProcessResultModel[] data = new ProcessResultModel[0];
+            try
+            {
+                DateTime dtStart = DateTime.Now.Date.AddMonths(-1);
+                DateTime dtEnd = DateTime.Now;
+
+                data = _context.ProcessResults.Where(d => d.CreatedDate >= dtStart && d.CreatedDate <= dtEnd
+                        && d.ProcessStep.HnProcess.HnProcessId == processId)
+                    .Select(d => new ProcessResultModel{
+                        CreatedDate = d.CreatedDate,
+                        Id = d.Id,
+                        NumResult = d.NumResult,
+                        ProcessStepId = d.ProcessStepId,
+                        StrResult = d.StrResult,
+                        DurationInSeconds = d.DurationInSeconds,
+                        IsTestResult = d.ProcessStep.IsTestResult,
+                        IsOk = d.IsOk,
+                    }).ToArray();
+            }
+            catch
+            {
+                
+            }
+            
+            return data;
+        }
+
+        [HttpGet]
+        [Route("LastResult/{processId}")]
+        public ProcessResultModel GetLastResult(int processId){
+            ProcessResultModel data = new ProcessResultModel();
+            try
+            {
+                data = _context.ProcessResults.Where(d => d.ProcessStep.HnProcessId == processId)
+                .OrderByDescending(d => d.Id)
+                .Select(d => new ProcessResultModel{
+                        Id = d.Id,
+                        CreatedDate = d.CreatedDate,
+                        NumResult = d.NumResult,
+                        StrResult = d.StrResult,
+                        ProcessStepId = d.ProcessStepId,
+                        DurationInSeconds = d.DurationInSeconds,
+                        IsOk = d.IsOk,
+                    }).FirstOrDefault();
+            }
+            catch
+            {
+                
+            }
+            
+            return data;
+        }
+
+        [HttpGet]
+        [Route("{id}")]
         public ProcessResultModel Get(int id)
         {
             ProcessResultModel data = new ProcessResultModel();
@@ -54,6 +148,7 @@ namespace hn_logic_api.Controllers
                         NumResult = d.NumResult,
                         StrResult = d.StrResult,
                         ProcessStepId = d.ProcessStepId,
+                        IsOk = d.IsOk,
                     }).FirstOrDefault();
             }
             catch
@@ -80,6 +175,8 @@ namespace hn_logic_api.Controllers
                 dbObj.NumResult = model.NumResult;
                 dbObj.StrResult = model.StrResult;
                 dbObj.ProcessStepId = model.ProcessStepId;
+                dbObj.DurationInSeconds = model.DurationInSeconds;
+                dbObj.IsOk = model.IsOk;
 
                 _context.SaveChanges();
                 result.Result=true;

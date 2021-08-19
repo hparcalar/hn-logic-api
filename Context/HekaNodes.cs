@@ -31,6 +31,11 @@ namespace HekaNodes.DataAccess {
         public string Name { get; set; }
         public bool IsActive { get; set; }
         public int HnAppId { get; set; }
+        public int DelayBefore { get; set; }
+        public int DelayAfter { get; set; }
+        public bool CanRepeat { get; set; } = false;
+        public int ProcStatus { get; set; } = 0;
+        public string LiveCondition { get; set; }
         public HnApp HnApp { get; set; }
     }
 
@@ -42,6 +47,10 @@ namespace HekaNodes.DataAccess {
         public int? DelayBefore { get; set; }
         public int? DelayAfter { get; set; }
         public int HnProcessId { get; set; }
+        public bool IsTestResult { get; set; } = false;
+        public int OrderNo { get; set; }
+        public bool WaitUntilConditionRealized { get; set; } = false;
+        public int ConditionRealizeTimeout { get; set; }
         public HnProcess HnProcess { get; set; }
     }
 
@@ -51,6 +60,8 @@ namespace HekaNodes.DataAccess {
         public ProcessStep ProcessStep { get; set; }
         public string? StrResult { get; set; }
         public float? NumResult { get; set; }
+        public bool? IsOk { get; set; }
+        public int DurationInSeconds { get; set; }
         public DateTime CreatedDate { get; set; }
     }
 }

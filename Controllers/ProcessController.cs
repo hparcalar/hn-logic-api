@@ -5,11 +5,13 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using HekaNodes.DataAccess;
+using Microsoft.AspNetCore.Cors;
 
 namespace hn_logic_api.Controllers
 {
     [ApiController]
     [Route("[controller]")]
+    [EnableCors()]
     public class ProcessController : ControllerBase
     {
         NodesContext _context;
@@ -28,6 +30,11 @@ namespace hn_logic_api.Controllers
                         HnAppId = d.HnAppId,
                         HnProcessId = d.HnProcessId,
                         IsActive = d.IsActive,
+                        CanRepeat = d.CanRepeat,
+                        DelayAfter =d.DelayAfter,
+                        DelayBefore = d.DelayBefore,
+                        ProcStatus = d.ProcStatus,
+                        LiveCondition = d.LiveCondition,
                         Name = d.Name,
                     }).ToArray();
             }
@@ -50,7 +57,12 @@ namespace hn_logic_api.Controllers
                         HnAppId = d.HnAppId,
                         HnProcessId = d.HnProcessId,
                         IsActive = d.IsActive,
+                        CanRepeat = d.CanRepeat,
+                        DelayAfter =d.DelayAfter,
+                        DelayBefore = d.DelayBefore,
+                        ProcStatus = d.ProcStatus,
                         Name = d.Name,
+                        LiveCondition = d.LiveCondition,
                     }).FirstOrDefault();
 
                 if (data != null){
@@ -58,9 +70,15 @@ namespace hn_logic_api.Controllers
                         .Select(d => new ProcessStepModel {
                             ProcessStepId = d.ProcessStepId,
                             Explanation = d.Explanation,
+                            DelayBefore = d.DelayBefore,
+                            DelayAfter = d.DelayAfter,
+                            OrderNo = d.OrderNo,
                             Comparison = d.Comparison,
                             ResultAction = d.ResultAction,
                             HnProcessId = d.HnProcessId,
+                            IsTestResult = d.IsTestResult,
+                            WaitUntilConditionRealized = d.WaitUntilConditionRealized,
+                            ConditionRealizeTimeout = d.ConditionRealizeTimeout,
                         }).ToArray();
                 }
             }
@@ -87,6 +105,7 @@ namespace hn_logic_api.Controllers
                 dbObj.HnAppId = model.HnAppId;
                 dbObj.IsActive = model.IsActive;
                 dbObj.Name = model.Name;
+                dbObj.LiveCondition = model.LiveCondition;
 
                 #region SAVE STEPS
                 var currentSteps = _context.ProcessSteps.Where(d => d.HnProcessId == model.HnProcessId).ToArray();
@@ -108,7 +127,13 @@ namespace hn_logic_api.Controllers
                     dbStep.Explanation = item.Explanation;
                     dbStep.Comparison = item.Comparison;
                     dbStep.ResultAction = item.ResultAction;
+                    dbStep.OrderNo = item.OrderNo;
+                    dbStep.DelayAfter = item.DelayAfter;
+                    dbStep.DelayBefore = item.DelayBefore;
                     dbStep.HnProcess = dbObj;
+                    dbStep.WaitUntilConditionRealized = item.WaitUntilConditionRealized;
+                    dbStep.ConditionRealizeTimeout = item.ConditionRealizeTimeout;
+                    dbStep.IsTestResult = item.IsTestResult;
                 }
                 #endregion
 
@@ -120,6 +145,31 @@ namespace hn_logic_api.Controllers
             {
                 result.Result=false;
                 result.ErrorMessage = ex.Message;
+            }
+
+            return result;
+        }
+
+        [HttpPut]
+        public BusinessResult Put(HnProcessModel model){
+            BusinessResult result = new BusinessResult();
+
+            try
+            {
+                var dbObj = _context.HnProcesses.FirstOrDefault(d => d.HnProcessId == model.HnProcessId);
+                if (dbObj == null)
+                    throw new Exception("Process does not exists.");
+
+                dbObj.ProcStatus = model.ProcStatus;
+
+                _context.SaveChanges();
+
+                result.Result=true;
+            }
+            catch (System.Exception ex)
+            {
+                result.ErrorMessage = ex.Message;
+                result.Result=false;
             }
 
             return result;
