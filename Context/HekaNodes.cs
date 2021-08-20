@@ -35,6 +35,7 @@ namespace HekaNodes.DataAccess {
         public int DelayAfter { get; set; }
         public bool CanRepeat { get; set; } = false;
         public int ProcStatus { get; set; } = 0;
+        public bool MustBeStopped { get; set; } = false;
         public string LiveCondition { get; set; }
         public HnApp HnApp { get; set; }
     }

@@ -3,15 +3,17 @@ using System;
 using HekaNodes.DataAccess;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace hn_logic_api.Migrations
 {
     [DbContext(typeof(NodesContext))]
-    partial class NodesContextModelSnapshot : ModelSnapshot
+    [Migration("20210819093428_mustBeStopped")]
+    partial class mustBeStopped
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

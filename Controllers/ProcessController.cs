@@ -35,6 +35,7 @@ namespace hn_logic_api.Controllers
                         DelayBefore = d.DelayBefore,
                         ProcStatus = d.ProcStatus,
                         LiveCondition = d.LiveCondition,
+                        MustBeStopped = d.MustBeStopped,
                         Name = d.Name,
                     }).ToArray();
             }
@@ -61,6 +62,7 @@ namespace hn_logic_api.Controllers
                         DelayAfter =d.DelayAfter,
                         DelayBefore = d.DelayBefore,
                         ProcStatus = d.ProcStatus,
+                        MustBeStopped = d.MustBeStopped,
                         Name = d.Name,
                         LiveCondition = d.LiveCondition,
                     }).FirstOrDefault();
@@ -161,6 +163,7 @@ namespace hn_logic_api.Controllers
                     throw new Exception("Process does not exists.");
 
                 dbObj.ProcStatus = model.ProcStatus;
+                dbObj.MustBeStopped = model.MustBeStopped;
 
                 _context.SaveChanges();
 

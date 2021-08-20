@@ -56,6 +56,7 @@ namespace hn_logic_api.Controllers
                         DelayAfter =d.DelayAfter,
                         DelayBefore = d.DelayBefore,
                         LiveCondition = d.LiveCondition,
+                        MustBeStopped = d.MustBeStopped,
                         Name = d.Name,
                     }).ToArray();
 

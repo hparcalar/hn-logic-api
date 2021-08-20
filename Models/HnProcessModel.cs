@@ -8,5 +8,6 @@ public class HnProcessModel {
         public bool CanRepeat { get; set; } = false;
         public int ProcStatus { get; set; } = 0;
         public string LiveCondition { get; set; }
+        public bool MustBeStopped { get; set; } = false;
     public ProcessStepModel[] Steps { get; set; }
 }
