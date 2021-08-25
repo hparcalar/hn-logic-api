@@ -76,12 +76,13 @@ namespace hn_logic_api.Controllers
                             DelayAfter = d.DelayAfter,
                             OrderNo = d.OrderNo,
                             Comparison = d.Comparison,
+                            ConditionSatisfiedTime = d.ConditionSatisfiedTime,
                             ResultAction = d.ResultAction,
                             HnProcessId = d.HnProcessId,
                             IsTestResult = d.IsTestResult,
                             WaitUntilConditionRealized = d.WaitUntilConditionRealized,
                             ConditionRealizeTimeout = d.ConditionRealizeTimeout,
-                        }).ToArray();
+                        }).OrderBy(d => d.OrderNo).ToArray();
                 }
             }
             catch
@@ -107,7 +108,10 @@ namespace hn_logic_api.Controllers
                 dbObj.HnAppId = model.HnAppId;
                 dbObj.IsActive = model.IsActive;
                 dbObj.Name = model.Name;
+                dbObj.CanRepeat = model.CanRepeat;
                 dbObj.LiveCondition = model.LiveCondition;
+                dbObj.DelayBefore = model.DelayBefore;
+                dbObj.DelayAfter = model.DelayAfter;
 
                 #region SAVE STEPS
                 var currentSteps = _context.ProcessSteps.Where(d => d.HnProcessId == model.HnProcessId).ToArray();
@@ -135,6 +139,7 @@ namespace hn_logic_api.Controllers
                     dbStep.HnProcess = dbObj;
                     dbStep.WaitUntilConditionRealized = item.WaitUntilConditionRealized;
                     dbStep.ConditionRealizeTimeout = item.ConditionRealizeTimeout;
+                    dbStep.ConditionSatisfiedTime = item.ConditionSatisfiedTime;
                     dbStep.IsTestResult = item.IsTestResult;
                 }
                 #endregion

@@ -52,6 +52,7 @@ namespace HekaNodes.DataAccess {
         public int OrderNo { get; set; }
         public bool WaitUntilConditionRealized { get; set; } = false;
         public int ConditionRealizeTimeout { get; set; }
+        public int ConditionSatisfiedTime { get; set; } = 0;
         public HnProcess HnProcess { get; set; }
     }
 

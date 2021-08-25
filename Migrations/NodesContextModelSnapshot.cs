@@ -123,6 +123,9 @@ namespace hn_logic_api.Migrations
                     b.Property<int>("ConditionRealizeTimeout")
                         .HasColumnType("integer");
 
+                    b.Property<int>("ConditionSatisfiedTime")
+                        .HasColumnType("integer");
+
                     b.Property<int?>("DelayAfter")
                         .HasColumnType("integer");
 
