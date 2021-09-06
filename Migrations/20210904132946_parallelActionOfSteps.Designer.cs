@@ -3,15 +3,17 @@ using System;
 using HekaNodes.DataAccess;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace hn_logic_api.Migrations
 {
     [DbContext(typeof(NodesContext))]
-    partial class NodesContextModelSnapshot : ModelSnapshot
+    [Migration("20210904132946_parallelActionOfSteps")]
+    partial class parallelActionOfSteps
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -47,12 +49,6 @@ namespace hn_logic_api.Migrations
                     b.Property<bool>("CanRepeat")
                         .HasColumnType("boolean");
 
-                    b.Property<string>("ConnectionResetMessage")
-                        .HasColumnType("text");
-
-                    b.Property<int>("ConnectionResetMessageDelay")
-                        .HasColumnType("integer");
-
                     b.Property<int>("DelayAfter")
                         .HasColumnType("integer");
 
@@ -63,9 +59,6 @@ namespace hn_logic_api.Migrations
                         .HasColumnType("integer");
 
                     b.Property<bool>("IsActive")
-                        .HasColumnType("boolean");
-
-                    b.Property<bool>("IsDeviceConnected")
                         .HasColumnType("boolean");
 
                     b.Property<string>("LiveCondition")

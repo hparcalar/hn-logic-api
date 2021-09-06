@@ -34,6 +34,9 @@ namespace hn_logic_api.Controllers
                         DelayAfter =d.DelayAfter,
                         DelayBefore = d.DelayBefore,
                         ProcStatus = d.ProcStatus,
+                        IsDeviceConnected = d.IsDeviceConnected,
+                        ConnectionResetMessage = d.ConnectionResetMessage,
+                        ConnectionResetMessageDelay = d.ConnectionResetMessageDelay,
                         LiveCondition = d.LiveCondition,
                         MustBeStopped = d.MustBeStopped,
                         Name = d.Name,
@@ -62,6 +65,9 @@ namespace hn_logic_api.Controllers
                         DelayAfter =d.DelayAfter,
                         DelayBefore = d.DelayBefore,
                         ProcStatus = d.ProcStatus,
+                        IsDeviceConnected = d.IsDeviceConnected,
+                        ConnectionResetMessage = d.ConnectionResetMessage,
+                        ConnectionResetMessageDelay = d.ConnectionResetMessageDelay,
                         MustBeStopped = d.MustBeStopped,
                         Name = d.Name,
                         LiveCondition = d.LiveCondition,
@@ -76,8 +82,10 @@ namespace hn_logic_api.Controllers
                             DelayAfter = d.DelayAfter,
                             OrderNo = d.OrderNo,
                             Comparison = d.Comparison,
+                            ElseAction = d.ElseAction,
                             ConditionSatisfiedTime = d.ConditionSatisfiedTime,
                             ResultAction = d.ResultAction,
+                            ParallelAction = d.ParallelAction,
                             HnProcessId = d.HnProcessId,
                             IsTestResult = d.IsTestResult,
                             WaitUntilConditionRealized = d.WaitUntilConditionRealized,
@@ -107,43 +115,50 @@ namespace hn_logic_api.Controllers
 
                 dbObj.HnAppId = model.HnAppId;
                 dbObj.IsActive = model.IsActive;
+                dbObj.IsDeviceConnected = model.IsDeviceConnected;
+                dbObj.ConnectionResetMessage = model.ConnectionResetMessage;
+                dbObj.ConnectionResetMessageDelay = model.ConnectionResetMessageDelay;
                 dbObj.Name = model.Name;
                 dbObj.CanRepeat = model.CanRepeat;
                 dbObj.LiveCondition = model.LiveCondition;
                 dbObj.DelayBefore = model.DelayBefore;
                 dbObj.DelayAfter = model.DelayAfter;
 
-                #region SAVE STEPS
-                var currentSteps = _context.ProcessSteps.Where(d => d.HnProcessId == model.HnProcessId).ToArray();
-                var deletedRecords = currentSteps.Where(d => !model.Steps.Select(m => m.ProcessStepId).ToArray().Contains(d.ProcessStepId))
-                    .ToArray();
-                foreach (var item in deletedRecords)
-                {
-                    _context.ProcessSteps.Remove(item);
-                }
-
-                foreach (var item in model.Steps)
-                {
-                    var dbStep = _context.ProcessSteps.FirstOrDefault(d => d.ProcessStepId == item.ProcessStepId);
-                    if (dbStep == null){
-                        dbStep = new ProcessStep();
-                        _context.ProcessSteps.Add(dbStep);
+                if (model.Steps.Length > 0){
+                    #region SAVE STEPS
+                    var currentSteps = _context.ProcessSteps.Where(d => d.HnProcessId == model.HnProcessId).ToArray();
+                    var deletedRecords = currentSteps.Where(d => !model.Steps.Select(m => m.ProcessStepId).ToArray().Contains(d.ProcessStepId))
+                        .ToArray();
+                    foreach (var item in deletedRecords)
+                    {
+                        _context.ProcessSteps.Remove(item);
                     }
 
-                    dbStep.Explanation = item.Explanation;
-                    dbStep.Comparison = item.Comparison;
-                    dbStep.ResultAction = item.ResultAction;
-                    dbStep.OrderNo = item.OrderNo;
-                    dbStep.DelayAfter = item.DelayAfter;
-                    dbStep.DelayBefore = item.DelayBefore;
-                    dbStep.HnProcess = dbObj;
-                    dbStep.WaitUntilConditionRealized = item.WaitUntilConditionRealized;
-                    dbStep.ConditionRealizeTimeout = item.ConditionRealizeTimeout;
-                    dbStep.ConditionSatisfiedTime = item.ConditionSatisfiedTime;
-                    dbStep.IsTestResult = item.IsTestResult;
-                }
-                #endregion
+                    foreach (var item in model.Steps)
+                    {
+                        var dbStep = _context.ProcessSteps.FirstOrDefault(d => d.ProcessStepId == item.ProcessStepId);
+                        if (dbStep == null){
+                            dbStep = new ProcessStep();
+                            _context.ProcessSteps.Add(dbStep);
+                        }
 
+                        dbStep.Explanation = item.Explanation;
+                        dbStep.Comparison = item.Comparison;
+                        dbStep.ResultAction = item.ResultAction;
+                        dbStep.OrderNo = item.OrderNo;
+                        dbStep.DelayAfter = item.DelayAfter;
+                        dbStep.ElseAction = item.ElseAction;
+                        dbStep.DelayBefore = item.DelayBefore;
+                        dbStep.ParallelAction = item.ParallelAction;
+                        dbStep.HnProcess = dbObj;
+                        dbStep.WaitUntilConditionRealized = item.WaitUntilConditionRealized;
+                        dbStep.ConditionRealizeTimeout = item.ConditionRealizeTimeout;
+                        dbStep.ConditionSatisfiedTime = item.ConditionSatisfiedTime;
+                        dbStep.IsTestResult = item.IsTestResult;
+                    }
+                    #endregion
+                }
+               
                 _context.SaveChanges();
                 result.Result=true;
                 result.RecordId = dbObj.HnAppId;

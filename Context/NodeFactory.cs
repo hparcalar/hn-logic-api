@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using HekaNodes.DataAccess;
+using System;
 public static class NodeFactory {
     public static string ConnectionString { get; set; }
     public static HekaNodes.DataAccess.NodesContext CreateNodes() {
@@ -13,8 +14,17 @@ public static class NodeFactory {
     public static void ApplyMigrations(){
         var nodeContext = CreateNodes();
         if (nodeContext != null){
-            nodeContext.Database.Migrate();
-            nodeContext.Dispose();
+            try
+            {
+                nodeContext.Database.Migrate();
+                nodeContext.Dispose();
+
+                Console.WriteLine("Migration Succeeded");
+            }
+            catch (System.Exception ex)
+            {
+                Console.WriteLine("Migration Error: "+ex.Message);
+            }
         }
     }
 }

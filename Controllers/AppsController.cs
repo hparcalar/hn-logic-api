@@ -55,6 +55,9 @@ namespace hn_logic_api.Controllers
                         CanRepeat = d.CanRepeat,
                         DelayAfter =d.DelayAfter,
                         DelayBefore = d.DelayBefore,
+                        IsDeviceConnected = d.IsDeviceConnected,
+                        ConnectionResetMessage = d.ConnectionResetMessage,
+                        ConnectionResetMessageDelay = d.ConnectionResetMessageDelay,
                         LiveCondition = d.LiveCondition,
                         MustBeStopped = d.MustBeStopped,
                         Name = d.Name,
@@ -70,11 +73,14 @@ namespace hn_logic_api.Controllers
                             DelayAfter = d.DelayAfter,
                             OrderNo = d.OrderNo,
                             Comparison = d.Comparison,
+                            ParallelAction = d.ParallelAction,
                             ResultAction = d.ResultAction,
+                            ElseAction = d.ElseAction,
                             HnProcessId = d.HnProcessId,
                             IsTestResult = d.IsTestResult,
                             WaitUntilConditionRealized = d.WaitUntilConditionRealized,
                             ConditionRealizeTimeout = d.ConditionRealizeTimeout,
+                            ConditionSatisfiedTime = d.ConditionSatisfiedTime,
                         }).ToArray();
                 }
             }

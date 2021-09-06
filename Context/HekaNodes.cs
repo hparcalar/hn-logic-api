@@ -33,6 +33,9 @@ namespace HekaNodes.DataAccess {
         public int HnAppId { get; set; }
         public int DelayBefore { get; set; }
         public int DelayAfter { get; set; }
+        public bool IsDeviceConnected { get; set; } = false;
+        public int ConnectionResetMessageDelay { get; set; } = 1000;
+        public string ConnectionResetMessage { get; set; }
         public bool CanRepeat { get; set; } = false;
         public int ProcStatus { get; set; } = 0;
         public bool MustBeStopped { get; set; } = false;
@@ -45,9 +48,11 @@ namespace HekaNodes.DataAccess {
         public string Explanation { get; set; }
         public string Comparison { get; set; }
         public string ResultAction { get; set; }
+        public string ElseAction { get; set; }
         public int? DelayBefore { get; set; }
         public int? DelayAfter { get; set; }
         public int HnProcessId { get; set; }
+        public string ParallelAction { get; set; }
         public bool IsTestResult { get; set; } = false;
         public int OrderNo { get; set; }
         public bool WaitUntilConditionRealized { get; set; } = false;

@@ -9,5 +9,8 @@ public class HnProcessModel {
         public int ProcStatus { get; set; } = 0;
         public string LiveCondition { get; set; }
         public bool MustBeStopped { get; set; } = false;
+        public bool IsDeviceConnected { get; set; } = false;
+        public int ConnectionResetMessageDelay { get; set; } = 1000;
+        public string ConnectionResetMessage { get; set; }
     public ProcessStepModel[] Steps { get; set; }
 }
