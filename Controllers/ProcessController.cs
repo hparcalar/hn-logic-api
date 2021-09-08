@@ -40,7 +40,7 @@ namespace hn_logic_api.Controllers
                         LiveCondition = d.LiveCondition,
                         MustBeStopped = d.MustBeStopped,
                         Name = d.Name,
-                    }).ToArray();
+                    }).OrderBy(d => d.HnProcessId).ToArray();
             }
             catch
             {
