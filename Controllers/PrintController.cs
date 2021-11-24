@@ -66,6 +66,24 @@ namespace hn_logic_api.Controllers
             return data;
         }
 
+        [HttpGet]
+        [Route("SerialNo/{itemId}")]
+        public int SerialNo(int itemId){
+            try
+            {
+                var today = DateTime.Now.Date;
+                var todayItemCount = _context.PrintQueues.Where(d => d.ItemId == itemId && d.CreatedDate == today
+                    && d.IsPrinted == true).Count();
+                return todayItemCount;
+            }
+            catch (System.Exception)
+            {
+                
+            }
+
+            return 0;
+        }
+
         [HttpPost]
         public BusinessResult Post(PrintQueueModel model){
             BusinessResult result = new BusinessResult();

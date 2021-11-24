@@ -82,7 +82,7 @@ namespace HekaNodes.DataAccess {
         public int Id { get; set; }
         public int ProcessStepId { get; set; }
         public ProcessStep ProcessStep { get; set; }
-        public string? StrResult { get; set; }
+        public string StrResult { get; set; }
         public float? NumResult { get; set; }
         public bool? IsOk { get; set; }
         public int? ItemId { get; set; }
