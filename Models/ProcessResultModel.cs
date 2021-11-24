@@ -8,5 +8,6 @@ public class ProcessResultModel {
         public DateTime CreatedDate { get; set; }
         public int DurationInSeconds { get; set; }
         public bool IsTestResult { get; set; }
+        public int? ItemId { get; set; }
         public ProcessStepModel ProcessStep { get; set; }
 }

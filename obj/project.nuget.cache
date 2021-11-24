@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "QZJoCXzUtfgk4U7QHwYOv2FcfpbHo9wPK2YH29KBBwPHk57VPybS9WpUXCZHlMIsequexp24QSEn7Q+tTCyiig==",
+  "dgSpecHash": "aQiO1RHJveb1+0ef3r6DWqOSxjhkcG7QxOsGsj476Wo4ZIBKFef4rQWrDyg6NGMtIx3qtfPrYCoc6W7ib2swng==",
   "success": true,
   "projectFilePath": "D:\\Projects\\HekaNodes\\hn-logic-api\\hn-logic-api.csproj",
   "expectedPackageFiles": [
@@ -40,10 +40,7 @@
     "C:\\Users\\Berkay\\.nuget\\packages\\system.componentmodel.annotations\\5.0.0\\system.componentmodel.annotations.5.0.0.nupkg.sha512",
     "C:\\Users\\Berkay\\.nuget\\packages\\system.diagnostics.diagnosticsource\\5.0.1\\system.diagnostics.diagnosticsource.5.0.1.nupkg.sha512",
     "C:\\Users\\Berkay\\.nuget\\packages\\system.runtime.compilerservices.unsafe\\4.6.0\\system.runtime.compilerservices.unsafe.4.6.0.nupkg.sha512",
-    "C:\\Users\\Berkay\\.nuget\\packages\\system.text.encodings.web\\4.5.0\\system.text.encodings.web.4.5.0.nupkg.sha512",
-    "C:\\Users\\Berkay\\.nuget\\packages\\microsoft.netcore.app.runtime.win-x64\\5.0.4\\microsoft.netcore.app.runtime.win-x64.5.0.4.nupkg.sha512",
-    "C:\\Users\\Berkay\\.nuget\\packages\\microsoft.windowsdesktop.app.runtime.win-x64\\5.0.4\\microsoft.windowsdesktop.app.runtime.win-x64.5.0.4.nupkg.sha512",
-    "C:\\Users\\Berkay\\.nuget\\packages\\microsoft.aspnetcore.app.runtime.win-x64\\5.0.4\\microsoft.aspnetcore.app.runtime.win-x64.5.0.4.nupkg.sha512"
+    "C:\\Users\\Berkay\\.nuget\\packages\\system.text.encodings.web\\4.5.0\\system.text.encodings.web.4.5.0.nupkg.sha512"
   ],
   "logs": []
 }

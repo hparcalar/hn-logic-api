@@ -8,6 +8,8 @@ namespace HekaNodes.DataAccess {
         public DbSet<HnProcess> HnProcesses { get; set; }
         public DbSet<ProcessStep> ProcessSteps { get; set; }
         public DbSet<ProcessResult> ProcessResults { get; set; }
+        public DbSet<Item> Items { get; set; }
+        public DbSet<PrintQueue> PrintQueues { get; set; }
 
         public NodesContext() : base(){}
         public NodesContext(Microsoft.EntityFrameworkCore.DbContextOptions options) : base(options){}
@@ -43,6 +45,21 @@ namespace HekaNodes.DataAccess {
         public HnApp HnApp { get; set; }
     }
 
+    public class PrintQueue{
+        public int PrintQueueId { get; set; }
+        public int? ItemId { get; set; }
+        public string ItemCode { get; set; }
+        public bool? IsPrinted { get; set; }
+        public DateTime CreatedDate { get; set; }
+    }
+
+    public class Item {
+        public int ItemId { get; set; }
+        public string ItemCode { get; set; }
+        public string ItemName { get; set; }
+        public bool IsActive { get; set; }
+    }
+
     public class ProcessStep {
         public int ProcessStepId { get; set; }
         public string Explanation { get; set; }
@@ -68,6 +85,8 @@ namespace HekaNodes.DataAccess {
         public string? StrResult { get; set; }
         public float? NumResult { get; set; }
         public bool? IsOk { get; set; }
+        public int? ItemId { get; set; }
+        public Item Item { get; set; }
         public int DurationInSeconds { get; set; }
         public DateTime CreatedDate { get; set; }
     }
