@@ -6,6 +6,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using HekaNodes.DataAccess;
 using Microsoft.AspNetCore.Cors;
+using System.IO;
+using ClosedXML;
+using ClosedXML.Excel;
 
 namespace hn_logic_api.Controllers
 {
@@ -107,6 +110,70 @@ namespace hn_logic_api.Controllers
             }
             
             return data;
+        }
+
+        [HttpGet]
+        [Route("DataSheet/Process/{processId}")]
+        public IActionResult AllDataOfProcess(int processId){
+            try
+            {
+                  #region PREPARE DATA
+            ProcessReportModel[] data = new ProcessReportModel[0];
+            try
+            {
+                data = _context.ProcessResults.Where(d => d.ProcessStep.HnProcess.HnProcessId == processId)
+                    .Select(d => new ProcessReportModel{
+                        CreatedDate = d.CreatedDate,
+                        StepName = d.ProcessStep != null ? d.ProcessStep.Explanation : "",
+                        Duration = d.DurationInSeconds,
+                        ItemNo = d.Item != null ? d.Item.ItemCode : "",
+                        ItemName = d.Item != null ? d.Item.ItemName : "",
+                        IsOk = d.IsOk ?? false,
+                    }).ToArray();
+            }
+            catch
+            {
+                
+            }
+            #endregion
+
+            #region PREPARE EXCEL FILE
+            byte[] excelFile = new byte[0];
+
+            using (var workbook = new XLWorkbook()) {
+                var worksheet = workbook.Worksheets.Add("Test Report");
+
+                worksheet.Cell(1,1).Value = "Tarih";
+                worksheet.Cell(1,2).Value = "Test Adımı";
+                worksheet.Cell(1,3).Value = "Malzeme No";
+                worksheet.Cell(1,4).Value = "Malzeme Adı";
+                worksheet.Cell(1,5).Value = "Sonuç";
+                worksheet.Cell(1,6).Value = "Test Süresi(sn)";
+
+                worksheet.Cell(2,1).InsertData(data);
+
+                worksheet.Columns().AdjustToContents();
+
+                var titlesStyle = workbook.Style;
+                titlesStyle.Font.Bold = true;
+                titlesStyle.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
+                worksheet.Row(1).Style = titlesStyle;
+
+                using (MemoryStream memoryStream = new MemoryStream()) {
+                    workbook.SaveAs(memoryStream);
+                    excelFile = memoryStream.ToArray();
+                }
+
+                return Ok(excelFile);
+            }
+
+            #endregion
+            
+            }
+            catch (System.Exception ex)
+            {
+                return NotFound(ex.Message);
+            }
         }
 
         [HttpGet]

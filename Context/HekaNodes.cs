@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace HekaNodes.DataAccess {
     public class NodesContext : DbContext, IDisposable {
@@ -80,13 +81,17 @@ namespace HekaNodes.DataAccess {
 
     public class ProcessResult {
         public int Id { get; set; }
+
+        [ForeignKey("ProcessStep")]
         public int ProcessStepId { get; set; }
-        public ProcessStep ProcessStep { get; set; }
         public string StrResult { get; set; }
         public float? NumResult { get; set; }
         public bool? IsOk { get; set; }
+
+        [ForeignKey("Item")]
         public int? ItemId { get; set; }
-        public Item Item { get; set; }
+        public virtual Item Item { get; set; }
+        public virtual ProcessStep ProcessStep { get; set; }
         public int DurationInSeconds { get; set; }
         public DateTime CreatedDate { get; set; }
     }

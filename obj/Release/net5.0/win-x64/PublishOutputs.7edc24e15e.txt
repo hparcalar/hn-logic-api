@@ -219,7 +219,7 @@
 /home/hakan/Projects/Heka/hn-logic-api/bin/Release/net5.0/win-x64/publish/hostfxr.dll
 /home/hakan/Projects/Heka/hn-logic-api/bin/Release/net5.0/win-x64/publish/hostpolicy.dll
 /home/hakan/Projects/Heka/hn-logic-api/bin/Release/net5.0/win-x64/publish/mscordaccore.dll
-/home/hakan/Projects/Heka/hn-logic-api/bin/Release/net5.0/win-x64/publish/mscordaccore_amd64_amd64_5.0.921.35908.dll
+/home/hakan/Projects/Heka/hn-logic-api/bin/Release/net5.0/win-x64/publish/mscordaccore_amd64_amd64_5.0.1121.47308.dll
 /home/hakan/Projects/Heka/hn-logic-api/bin/Release/net5.0/win-x64/publish/mscordbi.dll
 /home/hakan/Projects/Heka/hn-logic-api/bin/Release/net5.0/win-x64/publish/mscorrc.dll
 /home/hakan/Projects/Heka/hn-logic-api/bin/Release/net5.0/win-x64/publish/ucrtbase.dll
